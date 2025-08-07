@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bek Stones - Abone Ol</title>
+</head>
+<body>
+  <h2>Bülten Aboneliği</h2>
+  <form id="newsletter">
+    <input type="email" id="email" placeholder="E-posta adresiniz" required />
+    <button type="submit">Abone Ol</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    document.getElementById("newsletter").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+
+      const response = await fetch("http://localhost:3001/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+      document.getElementById("result").textContent = data.message || data.error;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5M6ZTN74');</script>
+<!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bek Stones | Natural Stone Cladding Services</title>
+  <meta name="description" content="Bek Stones offers elegant and durable natural stone cladding solutions for interior and exterior spaces. Facade, garden, fireplace, and interior wall applications.">
+  <meta name="keywords" content="natural stone cladding, facade stone cladding, garden wall cladding, fireplace stone covering, interior wall stone design">
+  <meta name="author" content="Bek Stones">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5M6ZTN74"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="header"></div>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="container">
+        <h2>Add Value to Your Space with Natural Stone</h2>
+        <p>We provide elegant and durable natural stone cladding solutions for both interior and exterior areas. At Bek Stones, we bring the elegance of nature to your spaces.</p>
+        <a href="contact.html" class="btn">Work With Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="services">
+    <div class="container">
+      <h2>Our Services</h2>
+      <div class="grid">
+
+        <a href="facade.html" class="card">
+          <img src="../images/IMG_5373.JPG" alt="Exterior Facade Stone Cladding">
+          <h3>Facade Stone Cladding</h3>
+          <p>Elegant and long-lasting stone cladding solutions for your building facades.</p>
+        </a>
+
+        <a href="garden.html" class="card">
+          <img src="../images/Piscina.jpg" alt="Garden Wall Stone Cladding">
+          <h3>Garden Wall Cladding</h3>
+          <p>Natural stone solutions that enhance the aesthetics of your garden walls.</p>
+        </a>
+
+        <a href="fireplace.html" class="card">
+          <img src="../images/yanan_somine.jpg" alt="Fireplace Stone Cladding">
+          <h3>Fireplace Stone Cladding</h3>
+          <p>Transform your fireplace area with natural stones for a warm and stylish look.</p>
+        </a>
+
+        <a href="interior.html" class="card">
+          <img src="../images/ic_cephe.jpg" alt="Interior Wall Stone Cladding">
+          <h3>Interior Stone Cladding</h3>
+          <p>Decorative stone applications for living rooms, corridors, and indoor areas.</p>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Stone Info CTA -->
+  <section class="stone-preview">
+    <div class="container">
+      <h2>Natural Stone Facade Cladding</h2>
+      <p>
+        Combining aesthetics, durability, and insulation, our natural stone cladding systems offer both traditional and modern appearances on building exteriors. Sourced from Turkey's finest quarries, our stones are 100% natural, offering quick installation and cost-optimized solutions.
+      </p>
+      <a href="about.html#stone-info-section" class="btn">Learn More</a>
+    </div>
+  </section>
+
+  <!-- Contact CTA -->
+  <section class="contact-cta">
+    <div class="container">
+      <h2>Contact Us</h2>
+      <p>Reach out now for your projects and cladding needs. We’re ready to assist you.</p>
+      <a href="contact.html" class="btn">Get in Touch</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 Bek Stones. All rights reserved. <a href="contact.html">Contact</a></p>
+  </div>
+</footer>
+
+<script src="../js/header.js"></script>
+
+<script>
+  window.addEventListener('scroll', function () {
+    const element = document.querySelector('.intro-text');
+    const windowHeight = window.innerHeight;
+    const elementTop = element.getBoundingClientRect().top;
+
+    if (elementTop < windowHeight - 100) {
+      element.classList.add('active');
+    }
+  });
+</script>
+
+<div id="slideInBox" class="slide-in">
+  <p>📩 Be the first to hear about our latest offers!</p>
+  <form id="slideSubscribeForm">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email Address" required>
+    <button type="submit">Subscribe</button>
+  </form>
+  <span class="close-btn" onclick="document.getElementById('slideInBox').style.display='none'">×</span>
+</div>
+
+<script>
+  setTimeout(() => {
+    document.getElementById('slideInBox').style.display = 'block';
+  }, 7000);
+
+  document.getElementById('slideSubscribeForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const name = this.name.value;
+    const email = this.email.value;
+
+    try {
+      const response = await fetch('http://localhost:3001/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Successfully subscribed!");
+        this.reset();
+        document.getElementById('slideInBox').style.display = 'none';
+      } else {
+        alert(data.error || "Something went wrong.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Cannot connect to server.");
+    }
+  });
+</script>
+
+</body>
+</html>

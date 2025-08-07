@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - Bek Stones</title>
+  <link rel="stylesheet" href="/css/admin-panel.css" />
+</head>
+<body>
+
+  <div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Bek Stones</h2>
+      <nav>
+        <ul>
+          <li><a href="#" id="dashboardTab">📊 Panel</a></li>
+          <li><a href="#" id="subscribersTab">📧 Aboneler</a></li>
+          <li><a href="#" id="messagesTab">📨 Mesajlar</a></li>
+          <li><a href="#" id="logoutBtn">🚪 Çıkış</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <section id="dashboard">
+        <h1>Admin Paneline Hoş Geldiniz</h1>
+        <p>Sol menüden bir işlem seçin.</p>
+      </section>
+
+      <section id="subscribers" style="display:none;">
+        <h2>Aboneler</h2>
+
+        <!-- CSV İndir Butonu -->
+        <button id="downloadCSV" class="btn">📥 CSV Formatında İndir</button>
+
+        <div id="subscribersList"></div>
+      </section>
+
+      <section id="messages" style="display:none;">
+        <h2>İletişim Mesajları</h2>
+        <div id="messagesList"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/admin-panel.js"></script>
+</body>
+</html>

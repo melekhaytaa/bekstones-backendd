@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5M6ZTN74');</script>
+<!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Bek Stones</title>
+  <meta name="description" content="Get in touch with Bek Stones. Reach out for inquiries about our natural stone cladding services.">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .contact-section {
+      padding: 60px 20px;
+      background: #fff;
+    }
+
+    .contact-section .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .contact-section h2, .contact-section p {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .contact-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .contact-info {
+      flex: 1 1 40%;
+      background: #f9f9f9;
+      padding: 30px;
+      border-radius: 12px;
+    }
+
+    .contact-info p {
+      margin: 10px 0;
+      font-size: 1rem;
+      color: #444;
+      display: flex;
+      align-items: center;
+    }
+
+    .contact-info p span {
+      margin-right: 8px;
+      font-size: 1.2rem;
+    }
+
+    .contact-info img.icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
+
+    .contact-form {
+      flex: 1 1 55%;
+      background: #f0f0f0;
+      padding: 30px;
+      border-radius: 12px;
+    }
+
+    .contact-form form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .contact-form button {
+      background: #d4b48c;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    .contact-form button:hover {
+      background: #c4a35a;
+    }
+
+    .map-container {
+      margin-top: 50px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 350px;
+      border: 0;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5M6ZTN74"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="header"></div>
+
+<main>
+  <section class="contact-section">
+    <div class="container">
+      <h2>Contact</h2>
+      <p>Feel free to reach out to us for your projects and inquiries.</p>
+
+      <div class="contact-content">
+        <div class="contact-info">
+          <h3>📌 Contact Details</h3>
+          <p><span>📍</span><strong>Address:</strong> Inonu Street, Bodrum, Mugla 48400, Turkey</p>
+          <p><span>📞</span><strong>Phone:</strong> +90 554 915 1594</p>
+          <p><span>✉️</span><strong>Email:</strong> info@bekstones.com</p>
+          <p>
+            <img src="../images/instagram-icon.png" alt="Instagram" class="icon">
+            <strong>Social:</strong> <a href="https://www.instagram.com/bekstones" target="_blank">@bekstones</a>
+          </p>
+        </div>
+
+        <div class="contact-form">
+          <h3>Write to Us</h3>
+          <form id="contactForm">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="tel" id="phone" name="phone" placeholder="Phone Number">
+            <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+            <button type="submit">Send</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="map-container">
+        <h3>Our Location</h3>
+        <iframe 
+          src="https://www.google.com/maps?q=Inonu+Caddesi,+Bodrum,+Mugla+48400,+Turkey&output=embed" 
+          allowfullscreen="" 
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 Bek Stones. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="../js/header.js"></script>
+
+<script>
+  document.getElementById('contactForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const name = this.name.value.trim();
+    const email = this.email.value.trim();
+    const phone = this.phone.value.trim();
+    const message = this.message.value.trim();
+
+    try {
+      const response = await fetch('http://localhost:3001/api/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, message })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Your message has been sent successfully!");
+        this.reset();
+      } else {
+        alert(data.error || "An error occurred.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Unable to reach the server.");
+    }
+  });
+</script>
+
+</body>
+</html>
