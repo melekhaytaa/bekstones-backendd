@@ -1,28 +1,42 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const path = require('path'); // path modülünü ekle
+// ==========================
+// Bekstones | server.js
+// ==========================
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+import messagesRouter from "./routes/messages.js";
+
+
+dotenv.config();
 
 const app = express();
-const db = require('./db/connection');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Statik dosyalar (HTML, CSS, JS vs.)
-app.use(express.static(path.join(__dirname, "public"))); // <-- Bunu ekledik
-
+// Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// API Rotaları
-const subscribeRoute = require('./routes/subscribe');
-app.use('/api/subscribe', subscribeRoute);
+// Statik dosyalar (frontend)
+app.use(express.static(path.join(__dirname, "public")));
 
-const adminAuthRoute = require('./routes/adminAuth');
-app.use('/api/admin', adminAuthRoute);
+// API routes
+app.use("/api/messages", messagesRouter);
 
-const messageRoute = require('./routes/messages');
-app.use('/api/messages', messageRoute);
-
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`🚀 Sunucu çalışıyor: http://localhost:${PORT}`);
+// Root yönlendirmesi
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
+// Hata yönetimi (genel)
+app.use((err, req, res, next) => {
+  console.error("🔥 Server Error:", err.stack);
+  res.status(500).json({ error: "Sunucu hatası oluştu. Lütfen tekrar deneyin." });
+});
+
+// Port ayarı
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`✅ Bekstones server running: http://localhost:${PORT}`));

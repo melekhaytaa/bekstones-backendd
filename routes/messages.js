@@ -1,46 +1,61 @@
-const express = require('express');
+// ==========================
+// Bekstones | messages.js
+// ==========================
+import express from "express";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
+
 const router = express.Router();
-const db = require('../db/connection');
-const { sendNotificationEmail } = require('../utils/mailer'); // ← Bunu ekledik
 
-// GET - Tüm mesajları getir
-router.get('/', (req, res) => {
-  const query = 'SELECT id, name, email, phone, message, created_at FROM messages ORDER BY created_at DESC';
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Mesajlar alınamadı:', err);
-      return res.status(500).json({ error: 'Veriler getirilemedi.' });
+router.post("/", async (req, res) => {
+  try {
+    const { name, email, phone, message } = req.body;
+
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: "Lütfen gerekli alanları doldurun." });
     }
-    res.json(results);
-  });
-});
 
-// POST - Yeni mesaj ekle
-router.post('/', (req, res) => {
-  const { name, email, phone, message } = req.body;
+    // E-posta gönderici
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT || 587),
+      secure: Number(process.env.SMTP_PORT) === 465, // true = SSL
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
 
-  console.log("GELEN BODY:", req.body);
+    // Mail içeriği
+    const mailOptions = {
+      from: `"Bekstones Web Sitesi" <${process.env.SMTP_USER}>`,
+      to: process.env.MAIL_TO || "info@bekstones.com",
+      subject: `📩 Yeni Mesaj: ${name}`,
+      text: `Ad: ${name}\nE-posta: ${email}\nTelefon: ${phone || "-"}\n\nMesaj:\n${message}`,
+      html: `
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto">
+          <h2>Yeni İletişim Mesajı</h2>
+          <p><b>Ad:</b> ${name}</p>
+          <p><b>E-posta:</b> ${email}</p>
+          <p><b>Telefon:</b> ${phone || "-"}</p>
+          <p><b>Mesaj:</b></p>
+          <p>${message}</p>
+          <hr>
+          <small>Bu mesaj Bekstones web sitesi iletişim formundan gönderilmiştir.</small>
+        </div>
+      `,
+    };
 
-  if (!name || !email || !message) {
-    return res.status(400).json({ error: 'Ad, e-posta ve mesaj zorunludur.' });
+    // Gönderim işlemi
+    await transporter.sendMail(mailOptions);
+
+    console.log(`📨 Yeni mesaj başarıyla gönderildi: ${name}`);
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error("❌ Mail gönderim hatası:", err);
+    res.status(500).json({ error: "Mesaj gönderilemedi. Lütfen daha sonra tekrar deneyin." });
   }
-
-  const query = 'INSERT INTO messages (name, email, phone, message) VALUES (?, ?, ?, ?)';
-  db.query(query, [name, email, phone, message], async (err) => {
-    if (err) {
-      console.error('Mesaj kaydedilemedi:', err);
-      return res.status(500).json({ error: 'Veritabanı hatası' });
-    }
-
-    // ✅ E-posta bildirimi gönder
-    try {
-      await sendNotificationEmail(name, email, message);
-    } catch (emailError) {
-      console.error('E-posta bildirimi gönderilemedi:', emailError);
-    }
-
-    res.status(200).json({ message: 'Mesaj başarıyla gönderildi.' });
-  });
 });
 
-module.exports = router;
+export default router;

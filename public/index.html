@@ -14,7 +14,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bek Stones | Doğal Taş Kaplama Hizmetleri</title>
-<link rel="canonical" href="https://bekstones.com/">
+<link rel="canonical" href="https://bekstones.com/index.html">
 
 <meta property="og:title" content="Doğal Taş Kaplama Hizmetleri | Bek Stones">
 <meta property="og:description" content="Bek Stones olarak cephe, şömine, bahçe ve iç mekanlar için estetik ve dayanıklı doğal taş kaplama çözümleri sunuyoruz.">
@@ -214,7 +214,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const email = this.email.value;
 
     try {
-      const response = await fetch('http://localhost:3001/api/subscribe', {
+      const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email })
