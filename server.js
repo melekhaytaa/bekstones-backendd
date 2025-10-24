@@ -16,7 +16,29 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middleware
-app.use(cors());
+const allowedOrigins = [
+  "https://bekstones.com",
+  "http://bekstones.com",
+  "https://bekstones-api.onrender.com",
+  "http://localhost:3000",
+  "http://localhost:5500"
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // origin yoksa (mesela Postman gibi) yine izin ver
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      console.warn("❌ CORS blocked origin:", origin);
+      return callback(new Error("CORS policy blocked this origin"), false);
+    }
+  },
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
